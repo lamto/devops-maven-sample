@@ -27,7 +27,7 @@ pipeline {
       agent none
       steps {
         container('maven') {
-          sh 'mvn -Dmaven.test.skip=true clean package'
+          sh 'mvn -D maven.test.skip=true clean package'
           sh 'docker build -f Dockerfile-online -t $REGISTRY/$DOCKERHUB_NAMESPACE/$APP_NAME:SNAPSHOT-$BUILD_NUMBER .'
           withCredentials([usernamePassword(credentialsId : 'dockerhub-id' ,passwordVariable : 'DOCKER_PASSWORD' ,usernameVariable : 'DOCKER_USERNAME' ,)]) {
             sh 'echo "$DOCKER_PASSWORD" | docker login $REGISTRY -u "$DOCKER_USERNAME" --password-stdin'
